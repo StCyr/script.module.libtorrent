@@ -74,7 +74,11 @@ if not os.path.exists(sizefile_path):
             log('die because the folder is empty')
             exit()
 dest_path = os.path.join(dirname, platform['system'], platform['version'])
-sys.path.insert(0, dest_path)
+
+if (getSettingAsBool('custom_dirname') and set_dirname) or not platform["try-system-first"]:
+    sys.path.insert(0, dest_path)
+else:
+    sys.path.append(dest_path)
 
 lm=LibraryManager(dest_path, platform)
 if not lm.check_exist():
@@ -144,7 +148,7 @@ try:
         finally:
             if fp: fp.close()
 
-    log('Imported libtorrent v' + libtorrent.version + ' from "' + dest_path + '"')
+    log('Imported libtorrent v' + libtorrent.version + ' from "' + libtorrent.__file__ + '"')
 
 except Exception, e:
     log('Error importing libtorrent from "' + dest_path + '". Exception: ' + str(e))

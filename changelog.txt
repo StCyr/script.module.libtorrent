@@ -1,4 +1,10 @@
-﻿1.1.7:
+﻿1.2.1:
+Try to use system library first when possible
+
+1.2.0:
+Added darwin binaries
+
+1.1.7:
 Added 1.1.6 and 1.1.7 for ARM v6 by Allin
 
 1.1.1:

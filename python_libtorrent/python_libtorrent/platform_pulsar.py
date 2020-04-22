@@ -155,27 +155,33 @@ def get_platform():
 def get_system(ret):
     ret["system"] = ''
     ret["message"] = ['', '']
+    ret["try-system-first"] = False
 
     if ret["os"] == 'windows':
         ret["system"] = 'windows'
         ret["message"] = ['Windows has static compiled python-libtorrent included.',
                           'You should install "script.module.libtorrent" from "MyShows.me Kodi Repo"']
+        ret["try-system-first"] = True
     elif ret["os"] == "linux" and ret["arch"] == "x64":
         ret["system"] = 'linux_x86_64'
         ret["message"] = ['Linux x64 has not static compiled python-libtorrent included.',
                           'You should install it by "sudo apt-get install python-libtorrent"']
+        ret["try-system-first"] = True
     elif ret["os"] == "linux" and ret["arch"] == "x86":
         ret["system"] = 'linux_x86'
         ret["message"] = ['Linux has static compiled python-libtorrent included but it didn\'t work.',
                           'You should install it by "sudo apt-get install python-libtorrent"']
+        ret["try-system-first"] = True
     elif ret["os"] == "linux" and "aarch64" in ret["arch"]:
         ret["system"] = 'linux_' + ret["arch"]
         ret["message"] = ['Linux has static compiled python-libtorrent included but it didn\'t work.',
                           'You should install it by "sudo apt-get install python-libtorrent"']
+        ret["try-system-first"] = True
     elif ret["os"] == "linux" and ("arm" or "mips" in ret["arch"]):
         ret["system"] = 'linux_'+ret["arch"]
         ret["message"] = ['As far as I know you can compile python-libtorrent for ARMv6-7.',
                           'You should search for "OneEvil\'s OpenELEC libtorrent" or use Ace Stream.']
+        ret["try-system-first"] = False
     elif ret["os"] == "android":
         if ret["arch"]=='arm':
             ret["system"] = 'android_armv7'
@@ -183,13 +189,16 @@ def get_system(ret):
             ret["system"] = 'android_x86'
         ret["message"] = ['Please contact DiMartino on kodi.tv forum. We compiled python-libtorrent for Android,',
                           'but we need your help with some tests on different processors.']
+        ret["try-system-first"] = False
     elif ret["os"] == "darwin":
         ret["system"] = 'darwin'
         ret["message"] = ['It is possible to compile python-libtorrent for OS X.',
                           'But you would have to do it by yourself, there is some info on github.com.']
+        ret["try-system-first"] = False
     elif ret["os"] == "ios" and ret["arch"] == "arm":
         ret["system"] = 'ios_arm'
         ret["message"] = ['It is probably NOT possible to compile python-libtorrent for iOS.',
                           'But you can use torrent-client control functions.']
+        ret["try-system-first"] = False
 
     return ret
